@@ -6,6 +6,7 @@ int CIRCLE_SPEED = 7; // The value given to the variable, CIRCLE_SPEED, is 7. Si
 color NO_CLICK_FILL_COLOR = color(250, 100, 100); // Make the color for the variable NO_CLICK_FILL_COLOR, red.
 color CLICK_FILL_COLOR = color(100, 100, 250); // Make the color for the variable CLICK_FILL_COLOR, purplish blue. 
 color BACKGROUND_COLOR = color(250, 150, 150); // Make the color for the variable BACKGROUND_COLOR, light red.
+color BACKGROUND_COLOR_KEY = color(20, 150, 150); // ADDED a new variable
 color STROKE_COLOR = color(250, 150, 150); // Make the color for the variable STROKE_COLOR, light red.
 
 int CIRCLE_SIZE = 50; // The value given to the variable, CIRCLE_SIZE, is 50. In other words, it is saying to make the circle size 50. 
@@ -64,4 +65,9 @@ void draw() { // void draw function will tell us what we want to happen in every
 // When the mouse is pressed, make the color of the background the color given to the variable, BACKGROUND_COLOR, color(250, 150, 150);
 void mousePressed() {
   background(BACKGROUND_COLOR);
+}
+
+// CHANGED - Added the keyPressed function. The background color will change when the key is pressed and will change back to red when the mouse is clicked. 
+void keyPressed() {
+  background(BACKGROUND_COLOR_KEY);
 }
