@@ -8,6 +8,7 @@ color CLICK_FILL_COLOR = color(100, 100, 250); // Make the color for the variabl
 color BACKGROUND_COLOR = color(250, 150, 150); // Make the color for the variable BACKGROUND_COLOR, light red.
 color BACKGROUND_COLOR_KEY = color(20, 150, 150); // ADDED a new variable
 color STROKE_COLOR = color(250, 150, 150); // Make the color for the variable STROKE_COLOR, light red.
+color COLORWHITE = color(255, 255, 255); // ADDED a new variable
 
 int CIRCLE_SIZE = 50; // The value given to the variable, CIRCLE_SIZE, is 50. In other words, it is saying to make the circle size 50. 
 
@@ -45,10 +46,21 @@ void draw() { // void draw function will tell us what we want to happen in every
     fill(NO_CLICK_FILL_COLOR);
   }
 
-// Draw an ellipse (x,y,w,h) based on the values given to the variables (see above)
+//CHANGED Added a CONDITIONAL. If the mouse's X position is greater than half the width OR mouse's Y position is greater than half the height, change to a white rectangle (variable COLORWHITE).  
+  if (mouseX > width/2 || mouseY > height/2) {
+  fill(COLORWHITE);
+  rect(circleX, circleY, CIRCLE_SIZE/2, CIRCLE_SIZE/2); // Is the same thing as ellipse(320, 240, 50, 50);
+  circleX += circleVX; // The x (horizontal) velocity is equal to circleX + circleVX (determined on lines: 23,25) therefore, circleX = 320 + 7 which is 327
+  circleY += circleVY; // The y (vertical) velocity is equal to circleY + circleVX  (determined on lines: 24,26) therefore, circleY = 240 + 7 which is 247
+  
+  }
+// Or else, keep it an ellipse, fill it with the color value given to the variable NO_CLICK_FILL_COLOR, color(100, 100, 250);
+  else {
+  fill(NO_CLICK_FILL_COLOR);
   ellipse(circleX, circleY, CIRCLE_SIZE, CIRCLE_SIZE); // Is the same thing as ellipse(320, 240, 50, 50);
   circleX += circleVX; // The x (horizontal) velocity is equal to circleX + circleVX (determined on lines: 23,25) therefore, circleX = 320 + 7 which is 327
   circleY += circleVY; // The y (vertical) velocity is equal to circleY + circleVX  (determined on lines: 24,26) therefore, circleY = 240 + 7 which is 247
+  }
 
 // If the circle's X location + the circle size is greater than the width of the window OR if the circle's X location - half the circle size is less than 0, then make the circle move the opposite direction.
 // In other words, if the circle goes outside the window on the x-axis, reverse the direction of the circle the opposite side so that is stays in the window. 
