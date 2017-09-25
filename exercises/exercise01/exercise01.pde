@@ -49,22 +49,10 @@ void draw() { // void draw function will tell us what we want to happen in every
 //CHANGED Added a CONDITIONAL. If the mouse's X position is greater than half the width OR mouse's Y position is greater than half the height, change to a white rectangle (variable COLORWHITE).  
   if (mouseX > width/2 || mouseY > height/2) {
   fill(COLORWHITE);
-  rectMode (CENTER); // ADDED determined the rectangle's center point
-  rect(circleX, circleY, CIRCLE_SIZE/2, CIRCLE_SIZE/2); // Is the same thing as rect(320, 240, 50, 50);
+  rect(circleX, circleY, CIRCLE_SIZE/2, CIRCLE_SIZE/2); // Is the same thing as ellipse(320, 240, 50, 50);
   circleX += circleVX; // The x (horizontal) velocity is equal to circleX + circleVX (determined on lines: 23,25) therefore, circleX = 320 + 7 which is 327
   circleY += circleVY; // The y (vertical) velocity is equal to circleY + circleVX  (determined on lines: 24,26) therefore, circleY = 240 + 7 which is 247
-//MOVED
-// If the rectangle's X location + the rectangle size is greater than the width of the window OR if the rectangle's X location - half the rectangle size is less than 0, then make the rectangle move the opposite direction.
-// In other words, if the rectangle goes outside the window on the x-axis, reverse the direction of the rectangle the opposite side so that is stays in the window. 
-// CIRCLE_SIZE/4 so the edge of the rectangle touches the side of the screen then bounces back the opposite direction. 
-  if (circleX + CIRCLE_SIZE/4 > width || circleX - CIRCLE_SIZE/4 < 0) {
-    circleVX = -circleVX;
-  }
-// If the rectangle's Y location + the rectangle size is greater than the height of the window OR if the rectangle's Y location - half the rectangle size is less than 0, then make the rectangle move the opposite direction.
-// In other words, if the rectangle goes outside the window on the y-axis, reverse the direction of the rectangle the opposite side so that is stays in the window. 
-  if (circleY + CIRCLE_SIZE/4 > height || circleY - CIRCLE_SIZE/4 < 0) {
-    circleVY = -circleVY;
-  }
+  
   }
 // Or else, keep it an ellipse, fill it with the color value given to the variable NO_CLICK_FILL_COLOR, color(100, 100, 250);
   else {
@@ -72,7 +60,8 @@ void draw() { // void draw function will tell us what we want to happen in every
   ellipse(circleX, circleY, CIRCLE_SIZE, CIRCLE_SIZE); // Is the same thing as ellipse(320, 240, 50, 50);
   circleX += circleVX; // The x (horizontal) velocity is equal to circleX + circleVX (determined on lines: 23,25) therefore, circleX = 320 + 7 which is 327
   circleY += circleVY; // The y (vertical) velocity is equal to circleY + circleVX  (determined on lines: 24,26) therefore, circleY = 240 + 7 which is 247
-// MOVED
+  }
+
 // If the circle's X location + the circle size is greater than the width of the window OR if the circle's X location - half the circle size is less than 0, then make the circle move the opposite direction.
 // In other words, if the circle goes outside the window on the x-axis, reverse the direction of the circle the opposite side so that is stays in the window. 
   if (circleX + CIRCLE_SIZE/2 > width || circleX - CIRCLE_SIZE/2 < 0) {
@@ -82,7 +71,6 @@ void draw() { // void draw function will tell us what we want to happen in every
 // In other words, if the circle goes outside the window on the y-axis, reverse the direction of the circle the opposite side so that is stays in the window. 
   if (circleY + CIRCLE_SIZE/2 > height || circleY - CIRCLE_SIZE/2 < 0) {
     circleVY = -circleVY;
-  }
   }
 }
 
