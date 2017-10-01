@@ -17,6 +17,7 @@ int paddleSpeed = 10;
 int paddleWidth = 128;
 int paddleHeight = 16;
 color paddleColor = color(255);
+color paddleColorContact = color(60);
 
 // Variables for the position and movement of the ball
 int ballX;
@@ -28,6 +29,7 @@ int ballSpeed = 5;
 // Variables for the ball size and color
 int ballSize = 16;
 color ballColor = color(255);
+color ballColorContact = color(0);
 
 // Dimensions of the window has been stated. Run the functions: setupPaddle() and setupBall() at the start of the program
 void setup() {
@@ -113,6 +115,9 @@ void drawBall() {
 // States what handleBallHitPaddle() function will do: What to do when the ball hits the paddle
 void handleBallHitPaddle() {
   if (ballOverlapsPaddle()) { // If the function ballOverlapsPaddle() returns true, execute this
+    //fill(ballColorContact);
+    ballColor = color (30,214,86); // ADDED: When the ball hits the paddle, the ball will turn green
+    paddleColor = color (30,214,86); // ADDED: When the ball hits the paddle, the paddle will turn green and stays green until it hits one of the walls
     ballY = paddleY - paddleHeight/2 - ballSize/2; // Sets the balls y-position on the paddle
     ballVY = -ballVY; // Bounce off the oppostite direction
   }
@@ -140,14 +145,20 @@ boolean ballOffBottom() {
 
 void handleBallHitWall() { 
   if (ballX - ballSize/2 < 0) { // If the ball hits the left side of the wall, the x-positon will be 0 so it says to bounce of the left wall
+    ballColor = color (255); // ADDED: When the ball hits the left wall, the ball will turn white
+    paddleColor = color (255); // ADDED: When the ball hits the left wall, the paddle will turn white
     ballX = 0 + ballSize/2;
     ballVX = -ballVX; // Bounce off the wall
   } else if (ballX + ballSize/2 > width) { // If the ball hits the right side of the wall, the x-positon of the wall will be > width so bounce off the right wall
+    ballColor = color (255); // ADDED: When the ball hits the right wall, the ball will turn white
+    paddleColor = color (255); // ADDED: When the ball hits the right wall, the paddle will turn white
     ballX = width - ballSize/2;
     ballVX = -ballVX; // Bounce off the wall
   }
   
   if (ballY - ballSize/2 < 0) { // If the ball his the top wall, the y-position of the ball will be < 0 so bounce off the top wall
+    ballColor = color (255); // ADDED: When the ball hits the top wall, the ball will turn white
+    paddleColor = color (255); // ADDED: When the ball hits the top wall, the paddle will turn white
     ballY = 0 + ballSize/2;
     ballVY = -ballVY; // Bounce off the wall
   }
