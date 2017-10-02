@@ -116,6 +116,23 @@ void updateBall() {
   handleBallHitPaddle(); // Will pick up code from below on what to do
   handleBallHitWall(); // Will pick up code from below on what to do
   handleBallOffBottom(); // Will pick up code from below on what to do
+  handleBallQuadrant(); //ADDED
+}
+
+void handleBallQuadrant(){ 
+  // Change ball color according to the ball's position in the quadrant 
+  if (ballX <= width/2 && ballY <= height/2){ // Top left - blue
+    ballColor = color (0,0,255); 
+  }
+  if (ballX > width/2 && ballY < height/2){ //  Top right - red
+    ballColor = color (255,0,0);
+  }
+  if (ballX < width/2 && ballY > height/2){ // Bottom left - green
+    ballColor = color (0,255,0);
+  }
+  if (ballX > width/2 && ballY > height/2){ // Bottom right - yellow
+    ballColor = color (255,255,8);
+  }
 }
 
 // ADDED
