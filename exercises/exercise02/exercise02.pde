@@ -26,10 +26,20 @@ int ballVX;
 int ballVY;
 int ballSpeed = 5;
 
+//ADDED new variables for fake ball
+float fakeBallX;
+float fakeBallY;
+float fakeBallVX;
+float fakeBallVY;
+int fakeBallSpeed = 5;
+
 // Variables for the ball size and color
 int ballSize = 16;
 color ballColor = color(255);
-color ballColorContact = color(0);
+
+//ADDED new variables for fake ball
+int fakeBallSize = 16;
+color fakeBallColor = color(247,148,245);
 
 // Dimensions of the window has been stated. Run the functions: setupPaddle() and setupBall() at the start of the program
 void setup() {
@@ -37,6 +47,7 @@ void setup() {
   
   setupPaddle(); // Will pick up code from below on what to do
   setupBall(); // Will pick up code from below on what to do
+  setupFakeBall(); // ADDED
 }
 
 // States what setupPaddle() function will do
@@ -54,6 +65,14 @@ void setupBall() {
   ballVY = ballSpeed; // The ball's y (verical) velocity is 5
 }
 
+// ADDED
+void setupFakeBall() {
+  fakeBallX = width/4; // The ball's x position is A QUARTER the width: 160
+  fakeBallY = height/4; // The ball's y position is A QUARTER the height: 80
+  fakeBallVX = fakeBallSpeed; // The ball's x (horizonal) velocity is 5
+  fakeBallVY = fakeBallSpeed; // The ball's y (verical) velocity is 5
+}
+
 void draw() {
   background(backgroundColor); // Background color will be black. Variable color value given on line 2
   // Run the functions drawStatic(); updatePaddle(); updateBall(); drawPaddle(); drawBall();
@@ -62,9 +81,12 @@ void draw() {
 
   updatePaddle(); // Will pick up code from below on what to do
   updateBall(); // Will pick up code from below on what to do
-
+  updateFakeBall(); // ADDED
+  
   drawPaddle(); // Will pick up code from below on what to do
   drawBall(); // Will pick up code from below on what to do
+  drawFakeBall (); // ADDED
+  
 }
 
 // States what drawStatic() function will do
@@ -96,6 +118,14 @@ void updateBall() {
   handleBallOffBottom(); // Will pick up code from below on what to do
 }
 
+// ADDED
+void updateFakeBall() {
+  fakeBallX += fakeBallVX;  
+  fakeBallY += fakeBallVY; 
+  
+  handleFakeBallOffBottom(); 
+}
+
 // States what drawPaddle() function will do
 void drawPaddle() {
   rectMode(CENTER); // Paddle's center point
@@ -110,6 +140,14 @@ void drawBall() {
   noStroke(); // No stroke for the paddle
   fill(ballColor); // Balls's fill color
   rect(ballX, ballY, ballSize, ballSize); // Ball's position and size
+}
+
+// ADDED
+void drawFakeBall() {
+  rectMode(CENTER); // Fake ball's center point
+  noStroke(); // No stroke for the paddle
+  fill(fakeBallColor); // Fake balls's fill color
+  rect(fakeBallX, fakeBallY, fakeBallSize, fakeBallSize); // Fake ball's position and size
 }
 
 // States what handleBallHitPaddle() function will do: What to do when the ball hits the paddle
@@ -141,6 +179,18 @@ void handleBallOffBottom() { // Resets the ball to the center of the window
 
 boolean ballOffBottom() {
   return (ballY - ballSize/2 > height); // Checks to see if the ball is going off the window at the bottom, if so, execute function handleBallOffBottom()
+}
+
+// ADDED
+void handleFakeBallOffBottom() { // The fake ball's position position will be random
+  if (fakeBallOffBottom()) { 
+    fakeBallX = random (0, width);
+    fakeBallY = random (0, height);
+  }
+}
+
+boolean fakeBallOffBottom() {
+  return (fakeBallY - fakeBallSize/2 > height); // Checks to see if the fake ball is going off the window at the bottom, if so, execute function handleBallOffBottom()
 }
 
 void handleBallHitWall() { 
