@@ -6,6 +6,9 @@ class Bouncer {
  int vx;
  int vy;
  int size;
+ int speedControl=0; // ADDED
+ int tempSpeedX; // ADDED
+ int tempSpeedY; // ADDED
  color fillColor;
  color defaultColor;
  color hoverColor;
@@ -17,6 +20,8 @@ class Bouncer {
    y = tempY;
    vx = tempVX;
    vy = tempVY;
+   tempSpeedX = tempVX; // Creating a second tempVX
+   tempSpeedY = tempVY; // Creating a second tempVY
    size = tempSize;
    defaultColor = tempDefaultColor;
    hoverColor = tempHoverColor;
@@ -37,12 +42,32 @@ class Bouncer {
  void handleBounce() {
 // If the x-position of the Bouncer is either going going off the screen on the left side or right side, in other words, if the x-position is less than 0 or greater than 640px, bounce back to the opposite direction
    if (x - size/2 < 0 || x + size/2 > width) {
-    vx = -vx; 
+   // vx = -vx; 
+   // ADDED If the bouncer is initialized at 0, double the velocity when it hits the left/right sides wall. 
+     if (speedControl == 0){ 
+       vx = -vx*2; 
+       speedControl = 1;
+     }
+   // ADDED Or else, set the velocity to the bouncer's initial velocity when created.
+     else {
+       vx = -tempSpeedX;
+       speedControl = 0;
+     }
    }
 
 // If the y-position of the Bouncer is either going going off the screen from the top or bottom, in other words, if the y-position is less than 0 or greater than 480px, bounce back to the opposite direction
    if (y - size/2 < 0 || y + size/2 > height) {
-     vy = -vy;
+     // vy = -vy;
+     // ADDED If the bouncer is initialized at 0, double the velocity when it hits the top/bottom of the wall.
+      if (speedControl == 0){
+         vy = -vy*2; 
+         speedControl = 1;
+       }
+     // ADDED Or else, set the velocity to the bouncer's initial velocity when created.
+       else {
+         vy = -tempSpeedY;
+         speedControl = 0;
+      }
    }
 
 // Make sure the direction of the Bouncer is constrained to the window size
