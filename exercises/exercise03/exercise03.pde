@@ -21,4 +21,6 @@ void draw() {
   bouncer2.update();
   bouncer.draw();
   bouncer2.draw();
+  bouncer.mouseClicked(); // ADDED
+  bouncer2.mouseClicked(); // ADDED
 }

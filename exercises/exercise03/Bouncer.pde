@@ -9,6 +9,7 @@ class Bouncer {
  int speedControl=0; // ADDED
  int tempSpeedX; // ADDED
  int tempSpeedY; // ADDED
+ color clickColor = color (255,255,255); // ADDED
  color fillColor;
  color defaultColor;
  color hoverColor;
@@ -36,58 +37,74 @@ class Bouncer {
 // Run these two methods
 // What do to for these methods is defined below starting from line 37
    handleBounce();
-   handleMouse();
+   //handleMouse(); //COMMENTED OUT since it is interferring with the mouseClicked() method
  }
 
  void handleBounce() {
 // If the x-position of the Bouncer is either going going off the screen on the left side or right side, in other words, if the x-position is less than 0 or greater than 640px, bounce back to the opposite direction
    if (x - size/2 < 0 || x + size/2 > width) {
-   // vx = -vx; 
-   // ADDED If the bouncer is initialized at 0, double the velocity when it hits the left/right sides wall. 
+    // vx = -vx; 
+   // If the bouncer is initialized at 0, double the velocity when it hits the left/right sides wall. 
+    
      if (speedControl == 0){ 
        vx = -vx*2; 
        speedControl = 1;
      }
-   // ADDED Or else, set the velocity to the bouncer's initial velocity when created.
+   // Or else, set the velocity to the bouncer's initial velocity when created.
      else {
        vx = -tempSpeedX;
        speedControl = 0;
      }
+     
    }
-
+  
 // If the y-position of the Bouncer is either going going off the screen from the top or bottom, in other words, if the y-position is less than 0 or greater than 480px, bounce back to the opposite direction
    if (y - size/2 < 0 || y + size/2 > height) {
      // vy = -vy;
-     // ADDED If the bouncer is initialized at 0, double the velocity when it hits the top/bottom of the wall.
+     // If the bouncer is initialized at 0, double the velocity when it hits the top/bottom of the wall.
+    
       if (speedControl == 0){
          vy = -vy*2; 
          speedControl = 1;
        }
-     // ADDED Or else, set the velocity to the bouncer's initial velocity when created.
+     // Or else, set the velocity to the bouncer's initial velocity when created.
        else {
          vy = -tempSpeedY;
          speedControl = 0;
       }
+     
    }
 
 // Make sure the direction of the Bouncer is constrained to the window size
    x = constrain(x,size/2,width-size/2); 
    y = constrain(y,size/2,height-size/2); 
  }
+
  
 // When the mouse's x/y coordinates intersect with the ellipse's x/y coordinates, in other words, when the mouse hovers over the ellipse, change the ellipse to the hover color or else keep it the default color
  void handleMouse() {
    if (dist(mouseX,mouseY,x,y) < size/2) {
-    fillColor = hoverColor; 
+    fillColor = hoverColor;     
    }
-   else {
+  else {
     fillColor = defaultColor;
    }
  }
- 
+
+// ADDED When the mouse is clicked to the left, the ellipse color changes to white. If it is right clicked, it changes back to the default color.
+void mouseClicked() {
+  if (mouseButton == LEFT) {
+    fillColor = clickColor;
+  } 
+  if (mouseButton == RIGHT){
+    fillColor = defaultColor;
+  } 
+}
+   
 // Properties of the ellipse is defined to display the Bouncer
  void draw() {
    noStroke();
    fill(fillColor);
-   ellipse(x,y,size,size);}
+   ellipse(x,y,size,size);
+}
 }
