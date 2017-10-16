@@ -13,6 +13,12 @@ Ball ball;
 // The distance from the edge of the window a paddle should be
 int PADDLE_INSET = 8;
 
+// Sound of the game, beep sound when ball hit the paddle
+import processing.sound.*; //import sound library
+SoundFile file;
+String audioName = "beep.wav"; //audio file 
+String path; 
+
 // ADDED Icons of the balls
 PImage smileyR;
 PImage smileyL;
@@ -41,6 +47,10 @@ void setup() {
   smileyR = loadImage("smileR.png");
   imageMode (CENTER);
   smileyL = loadImage("smileL.png");
+  
+  // Sound
+  path = sketchPath(audioName);
+  file = new SoundFile(this, path);
 
   // Create the paddles on either side of the screen. 
   // Use PADDLE_INSET to to position them on x, position them both at centre on y
