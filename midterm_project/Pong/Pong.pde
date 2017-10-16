@@ -8,7 +8,7 @@
 // Global variables for the paddles and the ball
 Paddle leftPaddle;
 Paddle rightPaddle;
-Ball[] balls = new Ball[4]; // ADDED and array so we have 4 balls
+Ball[] balls = new Ball[4];
 
 // The distance from the edge of the window a paddle should be
 int PADDLE_INSET = 8;
@@ -19,14 +19,17 @@ SoundFile file;
 String audioName = "beep.wav"; //audio file 
 String path; 
 
-// ADDED Icons of the balls
+// Icons of the balls
 PImage smileyR;
 PImage smileyL;
 
-// ADDED Background split
+// Background split
 PImage blueBg;
 PImage redBg;
 
+color winnerText = color (255, 255, 255);
+color winnerDisplayBg = color(255, 210, 31);
+int winningScore = 10;
 
 // setup()
 //
@@ -35,22 +38,27 @@ PImage redBg;
 void setup() {
   // Set the size
   size(640, 480);
-  
-  // ADDED Background Split
+
+  // Background Split
   imageMode (CORNER);
   blueBg = loadImage("player01.jpg");
   imageMode (CORNER);
   redBg = loadImage("player02.jpg");
   
-  // ADDED Smileys (Balls)
+    // Smileys (Balls)
   imageMode (CENTER);
   smileyR = loadImage("smileR.png");
   imageMode (CENTER);
   smileyL = loadImage("smileL.png");
-  
+
+  // Scores
+  textSize (25);
+  textAlign (CENTER, CENTER);
+
   // Sound
   path = sketchPath(audioName);
   file = new SoundFile(this, path);
+
 
   // Create the paddles on either side of the screen. 
   // Use PADDLE_INSET to to position them on x, position them both at centre on y
@@ -61,7 +69,6 @@ void setup() {
   rightPaddle = new Paddle(width - PADDLE_INSET, height/2, '0', 'p');
 
   // Create the ball at the centre of the screen
-  // ADDED an array 
   for (int i = 0; i < balls.length; i++) {
     balls[i] = new Ball(width/2, height/2);
   }
@@ -74,7 +81,6 @@ void setup() {
 
 void draw() {
   // Fill the background each frame so we have animation
-  // ADDED
   // Player 1 Side
   image(blueBg, 160, 240, 320, 480);
   // Player 2 Side
@@ -85,7 +91,6 @@ void draw() {
   rect(320, 0, 5, 960);
 
   // Update the paddles and ball by calling their update methods
-  // ADDED the array code for the ball methods
   leftPaddle.update();
   rightPaddle.update();
   for (int i = 0; i < balls.length; i++) {
@@ -105,9 +110,59 @@ void draw() {
     }
   }
 
-  // Display the paddles and the ball
+  // Display the paddles
   leftPaddle.display();
   rightPaddle.display();
+
+  // Display the scores + winner and reset the game
+  scores();
+  gameOver();
+}
+
+// Displays the scores
+void scores() {
+  fill (255);
+  text ("Player 1: " + leftPaddle.score, 155, 40);
+  text ("Player 2: " + rightPaddle.score, 480, 40);
+}
+
+// Displays who is the winner
+void gameOver() {
+  if (leftPaddle.score >= winningScore) {
+    gameOverPage("Player1 wins", winnerText);
+  }
+  if (rightPaddle.score >= winningScore) {
+    gameOverPage("Player2 wins", winnerText);
+  }
+}
+
+// Pop p
+void gameOverPage (String text, color c) {
+  for (int i = 0; i < balls.length; i++) {
+    balls[i].vx = 0;
+    balls[i].vy = 0;
+    leftPaddle.vx = 0;
+    leftPaddle.vy = 0;
+  }
+
+  fill (winnerDisplayBg);
+  stroke(255, 255, 255);
+  strokeWeight(4);
+  rect (320, 250, 320, 200);
+  fill (255);
+  text ("GAME OVER", width/2, height/3 + 40);
+  text (text, width/2, height/3 + 80);
+  text ("Click to play again", width/2, height/3 + 120);
+
+  if (mousePressed) {
+    for (int i = 0; i < balls.length; i++) {
+      balls[i].vx = floor(random (-5, 5));
+      balls[i].vy = floor(random (-5, 5));
+      balls[i].reset();
+    }
+    leftPaddle.score = 0;
+    rightPaddle.score = 0;
+  }
 }
 
 // keyPressed()

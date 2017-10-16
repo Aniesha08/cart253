@@ -11,7 +11,10 @@ class Paddle {
   int SPEED = 5;
   int HEIGHT = 70;
   int WIDTH = 16;
-  int RADIUS = 10; // ADDED paddle is rounded
+  int RADIUS = 10;
+  
+  
+  int score = 0; // ADDED initial score at 0
 
   // The position and velocity of the paddle (note that vx isn't really used right now)
   int x;
@@ -20,13 +23,12 @@ class Paddle {
   int vy;
   
   // The fill color of the paddle
-  color paddleColor = color(211,255,25); //CHANGED paddle color
+  color paddleColor = color(211,255,25);
 
   // The characters used to make the paddle move up and down, defined in constructor
   char upKey;
   char downKey;
-
-
+  
   /////////////// Constructor ///////////////
 
   // Paddle(int _x, int _y, char _upKey, char _downKey)
@@ -71,7 +73,7 @@ class Paddle {
     rectMode(CENTER);
     
     // Draw the paddle as a rectangle
-    rect(x, y, WIDTH, HEIGHT, RADIUS); // ADDED Radius to paddle
+    rect(x, y, WIDTH, HEIGHT, RADIUS);
   }
 
   // keyPressed()

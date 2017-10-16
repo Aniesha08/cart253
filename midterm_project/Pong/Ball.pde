@@ -2,6 +2,9 @@
 //
 // A class that defines a ball that can move around in the window, bouncing
 // of the top and bottom, and can detect collision with a paddle and bounce off that.
+// Ball graphics from: <a href="http://www.freepik.com/free-photos-vectors/background">Background vector created by Freepik</a>
+
+
 
 class Ball {
 
@@ -9,11 +12,11 @@ class Ball {
 
   // Default values for speed and size
   int SPEED = 3;
-  int SIZE = 42;
+  float SIZE = 42;
 
   // The location of the ball
-  int x;
-  int y;
+  float x;
+  float y;
 
   // The velocity of the ball
   int vx;
@@ -21,6 +24,11 @@ class Ball {
 
   // The colour of the ball
   color ballColor = color(255);
+  
+  // Scores and Winner display
+  color c = color (255,255,255);
+  
+
 
 
   /////////////// Constructor ///////////////
@@ -51,6 +59,7 @@ class Ball {
   // This is called by the main program once per frame. It makes the ball move
   // and also checks whether it should bounce of the top or bottom of the screen
   // and whether the ball has gone off the screen on either side.
+  
 
   void update() {
     // First update the location based on the velocity (so the ball moves)
@@ -60,20 +69,20 @@ class Ball {
     // Check if the ball is going off the top of bottom
     if (y - SIZE/2 < 0 || y + SIZE/2 > height) {
       // If it is, then make it "bounce" by reversing its velocity
-      vy = -vy;
+    vy = -vy;
     }
   }
-
+  
   // reset()
   //
   // Resets the ball to the centre of the screen.
   // Note that it KEEPS its velocity
-
+  
   void reset() {
     x = width/2;
     y = height/2;
   }
-
+  
   // isOffScreen()
   //
   // Returns true if the ball is off the left or right side of the window
@@ -81,10 +90,11 @@ class Ball {
   // (If we wanted to return WHICH side it had gone off, we'd have to return
   // something like an int (e.g. 0 = not off, 1 = off left, 2 = off right)
   // or a String (e.g. "ON SCREEN", "OFF LEFT", "OFF RIGHT")
-
+  
   boolean isOffScreen() {
     return (x + SIZE/2 < 0 || x - SIZE/2 > width);
   }
+
 
   // collide(Paddle paddle)
   //
@@ -98,7 +108,7 @@ class Ball {
     boolean insideRight = (x - SIZE/2 < paddle.x + paddle.WIDTH/2);
     boolean insideTop = (y + SIZE/2 > paddle.y - paddle.HEIGHT/2);
     boolean insideBottom = (y - SIZE/2 < paddle.y + paddle.HEIGHT/2);
-
+    
     // Check if the ball overlaps with the paddle
     if (insideLeft && insideRight && insideTop && insideBottom) {
       // If it was moving to the left
@@ -106,15 +116,31 @@ class Ball {
         // Reset its position to align with the right side of the paddle
         x = paddle.x + paddle.WIDTH/2 + SIZE/2;
         file.play();//play the sound when ball hit the paddle
+        paddle.score++; // ADD the score 
       } else if (vx > 0) {
         // Reset its position to align with the left side of the paddle
         x = paddle.x - paddle.WIDTH/2 - SIZE/2;
         file.play();//play the sound when ball hit the paddle
+        paddle.score++; // ADD the score 
+        
       }
       // And make it bounce
       vx = -vx;
     }
   }
+
+
+void keyPressed() {
+  if (key == CODED) {
+   if (keyCode == UP) {
+   vx = 0;
+   vy = 0;
+  } else if (keyCode == DOWN){
+   vx = SPEED;
+   vy = SPEED;
+  }
+  }
+}
 
   // display()
   //
@@ -124,18 +150,19 @@ class Ball {
     // Set up the appearance of the ball (no stroke, a fill, and rectMode as CENTER)
 
     // Draw the ball
-    if (x < width/2) { // Player 1 side
-      image(smileyL, x, y);
+   if (x < width/2){ // Player 1 side
+    image(smileyL, x, y);
     }
-    if (x > width/2) { // Player 2 side
-      image(smileyR, x, y);
+   if (x > width/2){ // Player 2 side
+    image(smileyR, x, y);
     }
-
-    if (x < width/2) { // Player 1 side
-      image(smileyL, x, y);
+    
+    if (x < width/2){ // Player 1 side
+    image(smileyL, x, y);
     }
-    if (x > width/2) { // Player 2 side
-      image(smileyR, x, y);
+   if (x > width/2){ // Player 2 side
+    image(smileyR, x, y);
     }
+    
   }
 }
