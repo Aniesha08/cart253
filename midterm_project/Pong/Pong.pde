@@ -4,10 +4,6 @@
 // Allows to people to bounce a ball back and forth between
 // two paddles that they control.
 //
-// No scoring. (Yet!)
-// No score display. (Yet!)
-// Pretty ugly. (Now!)
-// Only two paddles. (So far!)
 
 // Global variables for the paddles and the ball
 Paddle leftPaddle;
@@ -17,8 +13,13 @@ Ball ball;
 // The distance from the edge of the window a paddle should be
 int PADDLE_INSET = 8;
 
-// The background colour during play (black)
-color backgroundColor = color(0);
+// ADDED Icons of the balls
+PImage smileyR;
+PImage smileyL;
+
+// ADDED Background split
+PImage blueBg;
+PImage redBg;
 
 
 // setup()
@@ -28,6 +29,18 @@ color backgroundColor = color(0);
 void setup() {
   // Set the size
   size(640, 480);
+  
+  // ADDED Background Split
+  imageMode (CORNER);
+  blueBg = loadImage("player01.jpg");
+  imageMode (CORNER);
+  redBg = loadImage("player02.jpg");
+  
+  // ADDED Smileys (Balls)
+  imageMode (CENTER);
+  smileyR = loadImage("smileR.png");
+  imageMode (CENTER);
+  smileyL = loadImage("smileL.png");
 
   // Create the paddles on either side of the screen. 
   // Use PADDLE_INSET to to position them on x, position them both at centre on y
@@ -48,7 +61,15 @@ void setup() {
 
 void draw() {
   // Fill the background each frame so we have animation
-  background(backgroundColor);
+  // ADDED
+  // Player 1 Side
+  image(blueBg, 160, 240, 320, 480);
+  // Player 2 Side
+  image(redBg, 480, 240, 320, 480);
+  // Middle Division
+  fill(255, 255, 255);
+  noStroke();
+  rect(320, 0, 5, 960);
 
   // Update the paddles and ball by calling their update methods
   leftPaddle.update();
