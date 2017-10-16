@@ -37,8 +37,10 @@ class Ball {
   Ball(int _x, int _y) {
     x = _x;
     y = _y;
-    vx = SPEED;
-    vy = SPEED;
+    
+    // ADDED Random velocity is added to the balls so that they move in different directions
+    vx = floor(random (-5,5));
+    vy = floor(random (-5,5));
   }
 
 

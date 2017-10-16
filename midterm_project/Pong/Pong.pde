@@ -8,7 +8,7 @@
 // Global variables for the paddles and the ball
 Paddle leftPaddle;
 Paddle rightPaddle;
-Ball ball;
+Ball[] balls = new Ball[4]; // ADDED and array so we have 4 balls
 
 // The distance from the edge of the window a paddle should be
 int PADDLE_INSET = 8;
@@ -61,7 +61,10 @@ void setup() {
   rightPaddle = new Paddle(width - PADDLE_INSET, height/2, '0', 'p');
 
   // Create the ball at the centre of the screen
-  ball = new Ball(width/2, height/2);
+  // ADDED an array 
+  for (int i = 0; i < balls.length; i++) {
+    balls[i] = new Ball(width/2, height/2);
+  }
 }
 
 // draw()
@@ -82,24 +85,29 @@ void draw() {
   rect(320, 0, 5, 960);
 
   // Update the paddles and ball by calling their update methods
+  // ADDED the array code for the ball methods
   leftPaddle.update();
   rightPaddle.update();
-  ball.update();
+  for (int i = 0; i < balls.length; i++) {
+    balls[i].update();
 
-  // Check if the ball has collided with either paddle
-  ball.collide(leftPaddle);
-  ball.collide(rightPaddle);
+    // Check if the ball has collided with either paddle
+    balls[i].collide(leftPaddle);
+    balls[i].collide(rightPaddle);
 
-  // Check if the ball has gone off the screen
-  if (ball.isOffScreen()) {
-    // If it has, reset the ball
-    ball.reset();
+    // Display the ball
+    balls[i].display();
+
+    // Check if the ball has gone off the screen
+    if (balls[i].isOffScreen()) {
+      // If it has, reset the ball
+      balls[i].reset();
+    }
   }
 
   // Display the paddles and the ball
   leftPaddle.display();
   rightPaddle.display();
-  ball.display();
 }
 
 // keyPressed()
