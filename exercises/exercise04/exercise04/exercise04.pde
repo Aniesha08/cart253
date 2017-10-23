@@ -8,7 +8,7 @@
 
 // The size of a single grid element
 int gridSize = 20;
-int creatureSize = 20;
+int creatureSize = 10;
 // An array storing all the griddies
 Griddie[] griddies = new Griddie[100];
 Creature[] creatures = new Creature[50];
@@ -79,10 +79,11 @@ void draw() {
     for (int j = 0; j < creatures.length; j++) {
       if (j != i) {
         creatures[i].collide(creatures[j]);
+        creatures[i].bothCollide(creatures[j],griddies[j]);
       }
     }
 
-    // Display the griddies
+    // Display the creatures
     creatures[i].display();
   }
 }

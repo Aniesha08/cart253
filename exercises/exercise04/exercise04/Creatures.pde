@@ -15,6 +15,7 @@ class Creature {
   int x;
   int y;
   int size;
+  int newSize = 1;
   int energy;
   
   int r=round(random(0,255)); // ADDED
@@ -84,6 +85,13 @@ class Creature {
       // Constrain the energy level to be within bounds
       energy = constrain(energy,0,maxEnergy);
     }
+  }
+  
+  void bothCollide(Creature col, Griddie col2){
+    if (col.x == col2.x){
+      size += newSize;
+    }
+    
   }
 
   // display()
