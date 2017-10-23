@@ -8,8 +8,10 @@
 
 // The size of a single grid element
 int gridSize = 20;
+int creatureSize = 20;
 // An array storing all the griddies
 Griddie[] griddies = new Griddie[100];
+Creature[] creatures = new Creature[50];
 
 // setup()
 //
@@ -25,12 +27,18 @@ void setup() {
   for (int i = 0; i < griddies.length; i++) { // The loop will keep adding 1 griddie after each loop until it reaches 100 griddies
     // Defined variables for the array
     // Move the griddies in random x/y direction
-    // Constrained the griddies to be flowing within the window size
+    // Variables to create the position of the Griddies
     int x = floor(random(0, width/gridSize));
     int y = floor(random(0, height/gridSize));
     // Array for the griddies. Instead of having a 100 lines, the [i] simplifies and allows us to add 100 griddies by just having one line of code!
-    // We know that the [i] value is 100 based on line 12
+    // We know that the [i] value is 100 based on line 13
     griddies[i] = new Griddie(x * gridSize, y * gridSize, gridSize);
+  }
+
+  for (int i = 0; i < creatures.length; i++) { 
+    int x = floor(random(0, width/creatureSize));
+    int y = floor(random(0, height/creatureSize));
+    creatures[i] = new Creature(x * creatureSize, y * creatureSize, creatureSize);
   }
 }
 
@@ -49,16 +57,32 @@ void draw() {
 
     // Now go through all the griddies a second time...
     for (int j = 0; j < griddies.length; j++) {
-       // QUESTION: What is this if-statement for?
-       // ANSWER: Check if the number of griddies run the second time is not equal to the number of griddies run the first time
+      // QUESTION: What is this if-statement for?
+      // ANSWER: Check if the number of griddies run the second time is not equal to the number of griddies run the first time
       if (j != i) {
         // QUESTION: What does this line check?
         // ANSWER: Check if the griddies from the first time and second time collide with each other
         griddies[i].collide(griddies[j]);
       }
     }
-    
+
     // Display the griddies
     griddies[i].display();
+  }
+
+  // ADDED Creatures
+  for (int i = 0; i < creatures.length; i++) {
+
+    // Update the griddies
+    creatures[i].update();
+
+    for (int j = 0; j < creatures.length; j++) {
+      if (j != i) {
+        creatures[i].collide(creatures[j]);
+      }
+    }
+
+    // Display the griddies
+    creatures[i].display();
   }
 }
