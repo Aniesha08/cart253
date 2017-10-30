@@ -18,6 +18,7 @@ void setup() {
 
 void draw() {
   //println(width, height);
+  //Run the following functions
   windowResize();
   
   // Start the time once the window is being resized
@@ -33,7 +34,9 @@ void draw() {
   }
   
   scores();
+  gameOver();
 }
+
 
 // Scores increase or decrease according to the window size
 void windowResize() {
@@ -52,6 +55,17 @@ void windowResize() {
     }
   }
 }
+
+
+// The time and the score stops once it reaches 30 seconds or if the score hits 200
+void gameOver(){
+  if (timeElapsed >= 1800 || score >=200){
+  timerRunning = false;
+  scoreRunning = false;
+  text("Game Over", width/2, height/2);
+  }
+}
+  
 
 // Display the scores
 void scores(){
