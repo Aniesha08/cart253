@@ -1,6 +1,8 @@
 // Variables for the score and time 
 int score = 0;
 int startTime = 0;
+int timeElapsed = 0;
+boolean timerRunning = false;
 boolean scoreRunning = true;
 
 void setup() {
@@ -17,6 +19,19 @@ void setup() {
 void draw() {
   //println(width, height);
   windowResize();
+  
+  // Start the time once the window is being resized
+  if (width != 400 || height != 400){
+    timerRunning = true;
+  }
+  
+  // Increase & display the time
+  if (timerRunning) {
+  timeElapsed++;
+  text("Time Elapsed: " + floor(timeElapsed/60), 20, 40);
+  //println(timeElapsed);
+  }
+  
   scores();
 }
 
