@@ -114,9 +114,11 @@ boolean isOffScreen() {
       if (vx < 0) {
         // Reset its position to align with the right side of the paddle
         x = paddle.x + paddle.WIDTH/2 + SIZE/2;
+        paddle.score++; // ADDED the score 
       } else if (vx > 0) {
         // Reset its position to align with the left side of the paddle
         x = paddle.x - paddle.WIDTH/2 - SIZE/2;
+        paddle.score++; // ADDED the score 
         
       }
       // And make it bounce
