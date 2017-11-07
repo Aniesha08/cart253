@@ -8,8 +8,15 @@ import processing.video.*;
 // The capture object for reading from the webcam
 Capture video;
 
+// ADDED class for paddles
+Paddle leftPaddle;
+Paddle rightPaddle;
+
 // An array of bouncers to play with
 Bouncer[] bouncers = new Bouncer[4]; // CHANGED Reduced # of bouncers
+
+// ADDED The distance from the edge of the window to the paddle
+int PADDLE_INSET = 8;
 
 // setup()
 //
@@ -17,6 +24,12 @@ Bouncer[] bouncers = new Bouncer[4]; // CHANGED Reduced # of bouncers
 
 void setup() {
   size(640, 480);
+  
+  // ADDED Create the paddles on both sides of the screen. 
+  // The PADDLE_INSET will position them on the x and position them in the center on the y axis
+  // Identified which keys to press to control the paddles to make them move
+  leftPaddle = new Paddle(PADDLE_INSET, height/2, '1', 'q');
+  rightPaddle = new Paddle(width - PADDLE_INSET, height/2, '0', 'p');
 
   // Our old friend the for-loop used to go through the length of an
   // array adding new objects to it (Bouncers in this case)
@@ -51,4 +64,32 @@ void draw() {
    bouncers[i].display();
   }
   
+  // ADDED Update the Paddles
+  leftPaddle.update();
+  rightPaddle.update();
+  
+  // ADDED Display the paddles
+  leftPaddle.display();
+  rightPaddle.display();
+  
+}
+
+
+// ADDED keyPressed()
+//
+// Paddles will move when the keys are pressed
+
+void keyPressed() {
+  // Just call both paddles' own keyPressed methods
+  leftPaddle.keyPressed();
+  rightPaddle.keyPressed();
+}
+
+// ADDED keyReleased()
+//
+
+void keyReleased() {
+  // Call both paddles' keyReleased methods
+  leftPaddle.keyReleased();
+  rightPaddle.keyReleased();
 }
