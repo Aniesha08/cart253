@@ -36,7 +36,7 @@ void setup() {
   for (int i = 0; i < bouncers.length; i++) {
     // Each Bouncer just starts with random values 
     // Changed bouncers to random colors
-    bouncers[i] = new Bouncer(random(0,width),random(0,height),random(-10,10),random(-10,10),random(20,50),color(random(255), random(255), random (255)));
+    bouncers[i] = new Bouncer(random(0,width),random(0,height),random(-10,10),random(-10,10),color(random(255), random(255), random (255)));
   }
   
   // Start up the webcam

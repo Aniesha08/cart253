@@ -14,8 +14,8 @@ class Bouncer {
   float vy;
 
   // The size of the Bouncer
-  float size;
-
+  float size = 42;
+  
   // The current fill colour of the Bouncer
   color fillColor;
 
@@ -26,12 +26,11 @@ class Bouncer {
   //
   // Creates a Bouncer with the provided values by remembering them.
 
-  Bouncer(float tempX, float tempY, float tempVX, float tempVY, float tempSize, color tempDefaultColor) {
+  Bouncer(float tempX, float tempY, float tempVX, float tempVY, color tempDefaultColor) {
     x = tempX;
     y = tempY;
     vx = tempVX;
     vy = tempVY;
-    size = tempSize;
     defaultColor = tempDefaultColor;
     fillColor = defaultColor;
   }
