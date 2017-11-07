@@ -8,11 +8,6 @@ import processing.video.*;
 // The capture object for reading from the webcam
 Capture video;
 
-// A PVector allows us to store an x and y location in a single object
-// When we create it we give it the starting x and y (which I'm setting to -1, -1
-// as a default value)
-PVector brightestPixel = new PVector(-1,-1);
-
 // An array of bouncers to play with
 Bouncer[] bouncers = new Bouncer[4]; // CHANGED Reduced # of bouncers
 
@@ -56,9 +51,4 @@ void draw() {
    bouncers[i].display();
   }
   
-  // For now we just draw a crappy ellipse at the brightest pixel
-  fill(#ff0000);
-  stroke(#ffff00);
-  strokeWeight(10);
-  ellipse(brightestPixel.x,brightestPixel.y,20,20);
 }
