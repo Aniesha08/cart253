@@ -4,6 +4,8 @@
 // at a specific velocity.
 
 class Bouncer {
+  
+  int SPEED = 3;
 
   // Variables for position
   float x;
@@ -14,8 +16,8 @@ class Bouncer {
   float vy;
 
   // The size of the Bouncer
-  float size = 42;
-  
+  float SIZE = 42;
+
   // The current fill colour of the Bouncer
   color fillColor;
 
@@ -53,21 +55,89 @@ class Bouncer {
 
   void handleBounce() {
     // Check the left and right
-    if (x - size/2 < 0 || x + size/2 > width) {
+    if (x - SIZE/2 < 0 || x + SIZE/2 > width) {
       // Bounce on the x-axis
       vx = -vx;
     }
 
     // Check the top and bottom
-    if (y - size/2 < 0 || y + size/2 > height) {
+    if (y - SIZE/2 < 0 || y + SIZE/2 > height) {
       // Bounce on the y-axis
       vy = -vy;
     }
 
     // Make sure the Bouncer isn't off the edge
-    x = constrain(x, size/2, width-size/2);
-    y = constrain(y, size/2, height-size/2);
+    x = constrain(x, SIZE/2, width-SIZE/2);
+    y = constrain(y, SIZE/2, height-SIZE/2);
   }
+
+// reset()
+//
+// Resets the ball to the centre of the screen.
+// Note that it KEEPS its velocity
+  
+  void reset() {
+    x = width/2;
+    y = height/2;
+  }
+
+  
+// isOffScreen()
+//
+// Returns true if the ball is off the left or right side of the window
+// otherwise false
+// (If we wanted to return WHICH side it had gone off, we'd have to return
+// something like an int (e.g. 0 = not off, 1 = off left, 2 = off right)
+// or a String (e.g. "ON SCREEN", "OFF LEFT", "OFF RIGHT")
+  
+boolean isOffScreen() {
+   return (x + SIZE/2 < 0 || x - SIZE/2 > width);
+}
+  
+// ADDED 
+// collide(Paddle paddle)
+//
+// Checks whether this ball is colliding with the paddle passed as an argument
+// If it is, it makes the ball bounce away from the paddle by reversing its
+// x velocity
+
+  void collide(Paddle paddle) {
+    // Calculate possible overlaps with the paddle side by side
+    boolean insideLeft = (x + SIZE/2 > paddle.x - paddle.WIDTH/2);
+    boolean insideRight = (x - SIZE/2 < paddle.x + paddle.WIDTH/2);
+    boolean insideTop = (y + SIZE/2 > paddle.y - paddle.HEIGHT/2);
+    boolean insideBottom = (y - SIZE/2 < paddle.y + paddle.HEIGHT/2);
+    
+    // Check if the ball overlaps with the paddle
+    if (insideLeft && insideRight && insideTop && insideBottom) {
+      // If it was moving to the left
+      if (vx < 0) {
+        // Reset its position to align with the right side of the paddle
+        x = paddle.x + paddle.WIDTH/2 + SIZE/2;
+      } else if (vx > 0) {
+        // Reset its position to align with the left side of the paddle
+        x = paddle.x - paddle.WIDTH/2 - SIZE/2;
+        
+      }
+      // And make it bounce
+      vx = -vx;
+    }
+  }  
+  
+  
+
+void keyPressed() {
+  if (key == CODED) {
+   if (keyCode == UP) {
+   vx = 0;
+   vy = 0;
+  } else if (keyCode == DOWN){
+   vx = SPEED;
+   vy = SPEED;
+  }
+  }
+}
+
 
   // display()
   //
@@ -76,6 +146,6 @@ class Bouncer {
   void display() {
     noStroke();
     fill(fillColor);
-    ellipse(x, y, size, size);
+    ellipse(x, y, SIZE, SIZE);
   }
 }

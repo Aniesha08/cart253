@@ -55,25 +55,37 @@ void draw() {
   // Draw the video frame to the screen
   image(video, 0, 0);
   
+  // Update the paddles
+  leftPaddle.update();
+  rightPaddle.update();
+  
+  // Display the paddles
+  leftPaddle.display();
+  rightPaddle.display();
+  
   // Our old friend the for-loop running through the length of an array to
   // update and display objects, in this case Bouncers.
   // If the brightness (or other video property) is going to interact with all the
   // Bouncers, it will need to happen in here.
   for (int i = 0; i < bouncers.length; i++) {
    bouncers[i].update();
+ 
+   // ADDED Check if the ball has collided with either paddle
+   bouncers[i].collide(leftPaddle);
+   bouncers[i].collide(rightPaddle);
+   
+   
+   // Display the bouncers
    bouncers[i].display();
+   
+   
+   // ADDED Check if the ball has gone off the screen
+   if (bouncers[i].isOffScreen()) {
+   // If it has, reset the ball
+   bouncers[i].reset();
+   }
   }
-  
-  // ADDED Update the Paddles
-  leftPaddle.update();
-  rightPaddle.update();
-  
-  // ADDED Display the paddles
-  leftPaddle.display();
-  rightPaddle.display();
-  
 }
-
 
 // ADDED keyPressed()
 //
