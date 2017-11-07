@@ -26,7 +26,7 @@ Bouncer[] bouncers = new Bouncer[4]; // CHANGED Reduced # of bouncers
 int PADDLE_INSET = 8;
 
 // ADDED vairable to display the winner text and score
-color winnerText = color (255, 255, 255);
+color winnerText = color (0, 0, 0);
 color winnerDisplayBg = color(255, 210, 31);
 int winningScore = 10;
 
@@ -156,7 +156,7 @@ void draw() {
 
 // ADDED Displays the scores
 void scores() {
-  fill (255);
+  fill (0);
   text ("Player 1: " + leftPaddle.score, 155, 40);
   text ("Player 2: " + rightPaddle.score, 480, 40);
 }
