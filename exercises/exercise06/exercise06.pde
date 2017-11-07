@@ -105,17 +105,14 @@ void draw() {
         // Make a new color with an alpha component
         color c = color(r, g, b, 75);
       
-        // Code for drawing a single rect
-        // Using translate in order for rotation to work properly
-        pushMatrix();
-        translate(x+cellSize/2, y+cellSize/2);
-        // Rotation formula based on brightness
-        rotate((2 * PI * brightness(c) / 255.0));
-        rectMode(CENTER);
+       pushMatrix();
+       translate(x+cellSize/2, y+cellSize/2);
+       // Rotation formula based on brightness
+       // rotate((2 * PI * brightness(c) / 255.0)); REMOVED
+       // rectMode(CENTER); REMOVED
         fill(c);
         noStroke();
-        // Rects are larger than the cell for some overlap
-        ellipse(0, 0, cellSize+6, cellSize+6);
+        ellipse(0, 0, cellSize+6, cellSize+6); //CHNAGED to ellipse
         popMatrix();
       }
     }
