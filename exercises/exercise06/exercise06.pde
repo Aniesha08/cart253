@@ -2,6 +2,13 @@
 //
 // Using the webcam as input to play with Bouncers.
 
+/** Code taken from Processing Examples
+ * Mirror 
+ * by Daniel Shiffman.  
+ *
+ * Each pixel from the video source is drawn as a rectangle with rotation based on brightness.   
+*/ 
+
 // Import the video library
 import processing.video.*;
 
@@ -23,16 +30,28 @@ color winnerText = color (255, 255, 255);
 color winnerDisplayBg = color(255, 210, 31);
 int winningScore = 10;
 
+// ADDED Size of each cell in the grid
+int cellSize = 20;
+// ADDED Number of columns and rows in our system
+int cols, rows;
+
 // setup()
 //
 // Creates the bouncers and starts the webcam
 
 void setup() {
   size(640, 480);
+  background(0);
 
   // ADDED Scores
   textSize (25);
   textAlign (CENTER, CENTER);
+  
+  // ADDED from Mirror example
+  frameRate(30);
+  cols = width / cellSize;
+  rows = height / cellSize;
+  colorMode(RGB, 255, 255, 255, 100);
 
   // ADDED Create the paddles on both sides of the screen. 
   // The PADDLE_INSET will position them on the x and position them in the center on the y axis
@@ -62,7 +81,45 @@ void setup() {
 void draw() {
 
   // Draw the video frame to the screen
-  image(video, 0, 0);
+  //image(video, 0, 0);
+  
+  
+  // ADDED code for having a webcam in the background
+     if (video.available()) {
+    video.read();
+    video.loadPixels();
+  
+    // Begin loop for columns
+    for (int i = 0; i < cols; i++) {
+      // Begin loop for rows
+      for (int j = 0; j < rows; j++) {
+      
+        // Where are we, pixel-wise?
+        int x = i*cellSize;
+        int y = j*cellSize;
+        int loc = (video.width - x - 1) + y*video.width; // Reversing x to mirror the image
+      
+        float r = red(video.pixels[loc]);
+        float g = green(video.pixels[loc]);
+        float b = blue(video.pixels[loc]);
+        // Make a new color with an alpha component
+        color c = color(r, g, b, 75);
+      
+        // Code for drawing a single rect
+        // Using translate in order for rotation to work properly
+        pushMatrix();
+        translate(x+cellSize/2, y+cellSize/2);
+        // Rotation formula based on brightness
+        rotate((2 * PI * brightness(c) / 255.0));
+        rectMode(CENTER);
+        fill(c);
+        noStroke();
+        // Rects are larger than the cell for some overlap
+        ellipse(0, 0, cellSize+6, cellSize+6);
+        popMatrix();
+      }
+    }
+  }
 
   // Update the paddles
   leftPaddle.update();
