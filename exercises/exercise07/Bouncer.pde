@@ -51,23 +51,64 @@ class Bouncer {
   // Checks if the bouncer is overlapping a side of the window
   // and if so reverses its velocity appropriately
 
-  void handleBounce() {
+ void handleBounce() {
     // Check the left and right
     if (x - SIZE/2 < 0 || x + SIZE/2 > width) {
       // Bounce on the x-axis
       vx = -vx;
+
+      int quadrant = handleBallQuadrant();
+      if (quadrant == 1) {
+        quad1.play();
+      } else if (quadrant == 2) {
+        quad2.play();
+      } else if (quadrant == 3) {
+        quad3.play();
+      }else if (quadrant == 4) {
+        quad4.play();
+      }
+      
     }
 
     // Check the top and bottom
     if (y - SIZE/2 < 0 || y + SIZE/2 > height) {
       // Bounce on the y-axis
       vy = -vy;
+
+      int quadrant = handleBallQuadrant();
+      if (quadrant == 1) {
+        quad1.play();
+      } else if (quadrant == 2) {
+        //quad2.play();
+      } else if (quadrant == 3) {
+        //quad3.play();
+      }else if (quadrant == 4) {
+        quad4.play();
+      }
     }
 
     // Make sure the Bouncer isn't off the edge
     x = constrain(x, SIZE/2, width-SIZE/2);
     y = constrain(y, SIZE/2, height-SIZE/2);
   }
+
+  int handleBallQuadrant() { 
+    // Depending on the quadrant, return a different sound
+    if (x <= width/2 && y <= height/2) {
+      return 1;
+    }
+    if (x > width/2 && y < height/2) {
+      return 2;
+    }
+    if (x < width/2 && y > height/2) { 
+      return 3;
+    }
+    if (x > width/2 && y > height/2) { 
+      return 4;
+    }
+    return 0;
+  }
+
 
   // reset()
   //
