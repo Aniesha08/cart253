@@ -1,3 +1,11 @@
+import processing.sound.*;
+// Code to import sound. The SoundFile class already is part of the Processing library
+// It permits us to store a sound in a variable
+SoundFile quad1;
+SoundFile quad2;
+SoundFile quad3;
+SoundFile quad4;
+
 // An array of bouncers
 Bouncer[] bouncers = new Bouncer[5];
 Paddle paddle;
@@ -13,6 +21,10 @@ void setup() {
   // Each Bouncer just starts with random values 
   bouncers[i] = new Bouncer(random(0, width), random(0, height), random(-10, 10), random(-10, 10), color(random(255), random(255), random (255)));
   }
+  quad1 = new SoundFile(this, "sounds/A-Tone-His_Self-1266414414.mp3");
+  quad2 = new SoundFile(this, "sounds/196936__corsica-s__srhoenhut-mfp-f.wav");
+  quad3 = new SoundFile(this, "sounds/175582__sergeeo__kalimba-note-g.wav");
+  quad4 = new SoundFile(this, "sounds/334536__teddy-frost__piano-normal-d4.wav");
 }
 
 
