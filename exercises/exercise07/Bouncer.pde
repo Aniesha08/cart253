@@ -88,6 +88,20 @@ class Bouncer {
     return (x + SIZE/2 < 0 || x - SIZE/2 > width);
   }
 
+  void collide(Paddle paddle) {
+    // Calculate possible overlaps with the paddle side by side
+    boolean insideLeft = (x + SIZE/2 > paddle.px - paddle.w/2);
+    boolean insideRight = (x - SIZE/2 < paddle.px + paddle.w/2);
+    boolean insideTop = (y + SIZE/2 > paddle.py - paddle.h/2);
+    boolean insideBottom = (y - SIZE/2 < paddle.py + paddle.h/2);
+
+    // Check if the ball overlaps with the paddle
+    if (insideLeft && insideRight && insideTop && insideBottom) {
+      y = paddle.py - paddle.h/2 - SIZE/2; 
+      vy = -vy;
+    }
+  }
+
   // display()
   // Draw an ellipse in the Bouncer's location, with its size and fill
   void display() {

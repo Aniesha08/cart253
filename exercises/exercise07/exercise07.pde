@@ -1,9 +1,12 @@
 // An array of bouncers
 Bouncer[] bouncers = new Bouncer[5];
+Paddle paddle;
 
 void setup() {
   size(640, 480);
   background(0);
+  
+  paddle = new Paddle(width/2, height-16, 128, 16, color(255));
   
   // For-loop used to go through the length of the array adding new objects
   for (int i = 0; i < bouncers.length; i++) {
@@ -16,10 +19,15 @@ void setup() {
 void draw() {
   background(0);
   
-    for (int i = 0; i < bouncers.length; i++) {
-    
-    // Update and Display the bouncers
+  paddle.updatePaddle();
+  paddle.drawPaddle();
+  
+  for (int i = 0; i < bouncers.length; i++) {
     bouncers[i].update();
+
+    bouncers[i].collide(paddle);
+
+    // Display the bouncers
     bouncers[i].display();
 
     // ADDED Check if the ball has gone off the screen
@@ -37,5 +45,12 @@ void draw() {
       bouncers[i].reset();
     }
   }
-  
+}
+
+void keyPressed() {
+  paddle.keyPressed();
+}
+
+void keyReleased() {
+  paddle.keyReleased();
 }
