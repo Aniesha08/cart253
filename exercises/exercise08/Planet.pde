@@ -90,4 +90,20 @@ class Planet {
     }
     popMatrix(); // Restore
   }
+
+  // keyPressed()
+  //
+  // Called by the main program when the title is active.
+  // Sets finished to true immediately (since it's any key)
+
+  void keyPressed() {
+    //finished = true;
+  }
+
+  // keyReleased()
+  //
+  // Does nothing.
+
+  void keyReleased() {
+  }
 }

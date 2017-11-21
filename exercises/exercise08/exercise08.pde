@@ -4,9 +4,18 @@ import peasy.org.apache.commons.math.*;
 import peasy.org.apache.commons.math.geometry.*;
 import processing.video.*;
 
+// An enum is a way to group together a set of named options
+// In this case I'm using it for tracking the state the program is in.
+enum State {
+  NONE, 
+    TITLE, 
+    SOLARSYSTEM
+}
 
 // Added class for Sun and Peasy cam
 PeasyCam cam;
+State state;
+Title title;
 SolarSystem solarSystem;
 
 // The capture object for reading from the webcam
@@ -40,7 +49,9 @@ void setup () {
   textures[8] = loadImage("images/pluto.jpg");
 
   // Variables to show the state of the program
+  title = new Title();
   solarSystem = new SolarSystem();
+  state = State.TITLE;
 
   // Start up the webcam
   video = new Capture(this, 640, 480, 30);
@@ -63,6 +74,29 @@ void draw() {
   strokeWeight(10);
   //ellipse(brightestPixel.x, brightestPixel.y, 20, 20);
 
+
+  // A "switch" statement is like an "if" statement with different
+  // syntax. Notice how we use "break;" after the instructions for
+  // each state are finished.
+  switch (state) {
+    // If our state is NONE, we do nothing
+  case NONE:
+    break;
+
+    // If our state is TITLE we update the title object
+    // which displays it, and then we check whether the title
+    // screen is finished and if so we go to the menu state
+  case TITLE:
+    title.update();
+    if (title.finished) {
+      state = State.SOLARSYSTEM;
+    }
+    break;
+
+  case SOLARSYSTEM:
+    solarSystem.update();
+    break;
+  }
 }
 
 
@@ -110,5 +144,45 @@ void handleVideoInput() {
                
       }
     }
+  }
+}
+
+// keyPressed()
+//
+// Here we just call the keyPressed() method of the appropriate
+// object for the state we're in.
+
+void keyPressed() {
+  switch (state) {
+  case NONE:
+    break;
+
+  case TITLE:
+    title.keyPressed();
+    break;
+
+  case SOLARSYSTEM:
+    solarSystem.keyPressed();
+    break;
+  }
+}
+
+
+// keyReleased()
+//
+// As for keyPressed, except for released!
+
+void keyReleased() {
+  switch (state) {
+  case NONE:
+    break;
+
+  case TITLE:
+    title.keyReleased();
+    break;
+
+  case SOLARSYSTEM:
+    solarSystem.keyReleased();
+    break;
   }
 }

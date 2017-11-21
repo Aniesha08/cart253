@@ -32,4 +32,12 @@ class SolarSystem {
     sun.show();
     sun.orbit();
   }
+
+  void keyPressed() {
+    sun.keyPressed();
+  }
+
+  void keyReleased() {
+    sun.keyReleased();
+  }
 }
