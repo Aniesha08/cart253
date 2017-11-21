@@ -1,7 +1,17 @@
 class SolarSystem {
+
+  // Variables for image background and textures of planets 
   PImage sunTexture;
   
   Planet sun;
+  
+  // Variables of the initial state of pointLight when program is started
+  int r = 128;
+  int g = 128;
+  int b = 128;
+  int pointX = 0;
+  int pointY = 0;
+  int pointZ = 100;
 
 
 // Function containg the sun and the number of orbiting planets & level
@@ -15,11 +25,11 @@ class SolarSystem {
   }
 
   void update() {   
-    pointLight(128, 128, 128, 0, 0, 100);
-    
+    //Inital pointLight state
+    pointLight(r, g, b, pointX, pointY, pointZ);
+
     // Show the sun & the planets orbiting it 
     sun.show();
     sun.orbit();
   }
-
 }

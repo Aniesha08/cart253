@@ -59,7 +59,15 @@ class Planet {
     }
   }
 
-
+// Function to change the speed of the orbiting planets
+  void changeSpeed(float amount) {
+    orbitSpeed += (amount);
+    if (planets != null) {
+      for (int i = 0; i < planets.length; i++) {
+        planets[i].changeSpeed(amount);
+      }
+    }
+  }
 
   void show() {
     pushMatrix(); // Save
@@ -82,5 +90,4 @@ class Planet {
     }
     popMatrix(); // Restore
   }
-
 }
