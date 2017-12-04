@@ -9,6 +9,8 @@ class Title {
 
   // A variable to track whether the title screen is finished
   boolean finished = false;
+  
+  PFont impactFont = createFont("Impact",50);
 
   // The constructor does nothing
   Title() {
@@ -28,19 +30,25 @@ class Title {
   // to press any key
   void display() {
     textAlign(CENTER, CENTER);
-    textSize(64);
+    textSize(55);
+    textFont(impactFont);
     fill(255);  
+    pushMatrix();
     translate(0,-50,-200);
-    text("Light Effect", 0,0);
+    text("PLANET EFFECT", 0,0);
+    popMatrix();
     fill(255); 
+    pushMatrix();
     textSize(25);
-    translate(0,80,-200);
-    text("Move light source & mouse to play with planets speed & brightness", 0,0);
+    translate(0,10,-200);
+    text("Control planets using torch light & sound", 0,0); 
+    popMatrix();
     fill(255); 
+    pushMatrix();
     textSize(25);
-    translate(0,100,-200);
+    translate(0,60,-200);
     text("PRESS ANY KEY TO START", 0,0);
-   
+    popMatrix();
   }
   
   // keyPressed()
