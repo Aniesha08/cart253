@@ -1,6 +1,7 @@
 class SolarSystem {
 
   // Variables for the texture of the sun
+  // Code from tutorial
   PImage sunTexture;
   Planet sun; 
 
@@ -14,7 +15,8 @@ class SolarSystem {
     sun.orbitingPlanets(5, 1);
   }
 
-  void update() {   
+  void update() {  
+    // Added myself
     // Update point light according to brightest pixel detected by the the camera
     // pointLight (r,g,b,x,y,z)
     pointLight(255, 255, 255, brightestPixel.x, brightestPixel.y, 150);

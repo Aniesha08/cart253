@@ -1,3 +1,16 @@
+// ARTIST STATEMENT
+// I have decided to do my final project based on a 3D interface. I used the help of a tutorial 
+// to help me create the base of the solar system and get the planets to orbit around the planets. 
+// Eventually, I wanted to get the user to interact with the 3D solar system. The code covers an 
+// important topic of arrays. It is a little different that what we learned in class. In this case,
+// we have an array inside of an array to get the orbiting planets themselves to have planets orbiting 
+// around them. I wanted to get these planets to interact with sound and light. I was able to manipulate 
+// the planet orbiting speed according to the music and sound coming from the microphone. I really wanted 
+// to get the sun’s shadow respond with the movement of light (using the brightest pixel detection) but 
+// it did not work very well. Overall, I am happy to have learned some really cool techniques from working 
+// through this project. Pieces of code that were used from the tutorial and modified code are indicated in the comments. 
+// Video tutorial link: https://www.youtube.com/watch?v=FGAwi7wpU8c&list=LL6MyqwgB_KkGOPzFLaXBSig&index=86
+
 // Imported PeasyCam from Library. This lets us zoom in and out, move the planets using the mouse. 
 import peasy.*;
 import peasy.org.apache.commons.math.*;
@@ -43,7 +56,6 @@ PVector brightestPixel = new PVector(-1, -1);
 // The array can store 9 texture images of the planets 
 // which will later be randomly alternating each time the program is runned
 PImage[] textures = new PImage[9];
-
 PImage stars;
 
 

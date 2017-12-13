@@ -5,20 +5,22 @@ class Planet {
   Planet[] planets;
 
   // Variables for the sun and planets
+  // Code from tutorial
   float radius;
   float distance;
   float angle;
   float orbitSpeed;
   PVector v;
-  PVector p; // Perpendicular 
+  PVector p; 
   PShape globe;
 
   // Get the current level (volume) going into the microphone 
   // and change orbit speed by controlling by the sound 
-  float volSpeed;
-  float sound;
+  float volSpeed; // Added myself
+  float sound; // Added myself
 
   // Constructor to create the planets
+  // Code from tutorial
   //Planet (float r, float d, float o, float vol, PImage img) {
   Planet (float r, float d, float o, float volSpeed, PImage img) {
     v = PVector.random3D();
@@ -27,7 +29,7 @@ class Planet {
     v.mult(distance);
     angle = random(TWO_PI);
     orbitSpeed = o; 
-    sound = volSpeed;
+    sound = volSpeed; // Added myself
 
     // Properties to create the Sun
     noStroke();
@@ -37,6 +39,7 @@ class Planet {
   }
 
 // Make the children planets orbit
+// Code from tutorial
   void orbit() {
     angle = angle + orbitSpeed;
     if (planets != null) {
@@ -48,6 +51,7 @@ class Planet {
 
   // When a planet is created, the radius is shrinked, the distance is random, 
   // orbital speed is random (controlled by sound), texture of planets is random (picked up from array index in main program)
+  // Code from tutorial - modified to go with sound interaction
   void orbitingPlanets(int total, int planetLevel) {
     // New planet array
     planets = new Planet[total];
@@ -56,7 +60,7 @@ class Planet {
       float d = random((radius + r), (radius + r)*3); // distance between the planets touching and a little further away
       float o = random (-0.025, 0.025); // orbital speed range random
       int index = int(random(0, textures.length));
-      planets[i] = new Planet(r, d, o, volSpeed, textures[index]);
+      planets[i] = new Planet(r, d, o, volSpeed, textures[index]); // Modified
       if (planetLevel < 2) {// level of planets 
         int num = int(random(0, 3));
         planets[i].orbitingPlanets(num, planetLevel+1);
@@ -66,6 +70,7 @@ class Planet {
 
 // Update the orbitSpeed of the planet based on the sound level 
 // OrbitSpeed is contrained
+// Added myself
   void updateSpeed(float level) {
     if (planets != null) {
       for (int i = 0; i < planets.length; i++) {
@@ -76,16 +81,12 @@ class Planet {
   }
 
   void show() {
+    // Code from tutorial
     pushMatrix(); // Save
     noStroke();
     PVector v2 = new PVector(1, 0, 1);
     PVector p = v.cross(v2);
     rotate (angle, p.x, p.y, p.z);
-
-    // Lines to help visualize the Perpendicular rotation of the Planets 
-    //stroke (255);
-    //line (0, 0, 0, v.x, v.y, v.z); // perpendicular rotation
-    //line (0, 0, 0, p.x, p.y, p.z); // axis in which it is rotating
 
     translate (v.x, v.y, v.z);
     shape(globe);
