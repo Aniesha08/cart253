@@ -4,7 +4,7 @@ class SolarSystem {
   PImage sunTexture;
   Planet sun; 
 
-  // Function containg the sun and the number of orbiting planets & level
+// Function containg the sun and the number of orbiting planets & level
   SolarSystem() {
     sunTexture = loadImage("images/2k_sun.jpg");
 
@@ -24,5 +24,13 @@ class SolarSystem {
     sun.show();
     sun.orbit();
     sun.updateSpeed(level);
+  }
+
+  void keyPressed() {
+    sun.keyPressed();
+  }
+
+  void keyReleased() {
+    sun.keyReleased();
   }
 }

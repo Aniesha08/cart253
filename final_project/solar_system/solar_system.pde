@@ -14,13 +14,21 @@ SoundFile bgMusic;
 import ddf.minim.*;
 Minim minim;
 AudioInput mic;
-
 // Variable for the level of sound
 float level;
 
+// An enum is a way to group together a set of named options
+// In this case I'm using it for tracking the state the program is in.
+enum State {
+  NONE, 
+    TITLE, 
+    SOLARSYSTEM
+}
 
 // Added class for Sun and Peasy cam
 PeasyCam cam;
+State state;
+Title title;
 SolarSystem solarSystem;
 
 // The capture object for reading from the webcam
@@ -36,11 +44,15 @@ PVector brightestPixel = new PVector(-1, -1);
 // which will later be randomly alternating each time the program is runned
 PImage[] textures = new PImage[9];
 
+PImage stars;
+
 
 void setup () {
   // Setup the program to run in 3D
   fullScreen(P3D);
-  //size (640, 480, P3D);
+  
+  imageMode (CORNER);
+  stars = loadImage("images/2k_stars_milky_way.jpg");
 
   // Each index of the array has an image stored in it to use as texture for the planets
   textures[0] = loadImage("images/mars.jpg");
@@ -53,8 +65,14 @@ void setup () {
   textures[7] = loadImage("images/neptune.jpg");
   textures[8] = loadImage("images/pluto.jpg");
 
+  minim = new Minim(this);
+  // We use minim.getLineIn() to get access to the microphone data
+  mic = minim.getLineIn();
+
   // Variables to show the state of the program
+  title = new Title();
   solarSystem = new SolarSystem();
+  state = State.TITLE;
 
   // Start up the webcam
   video = new Capture(this, 640, 480, 30);
@@ -62,23 +80,59 @@ void setup () {
 
   // Make the PeasyCam for us to look at from the center from 150 units away when the program is run
   cam = new PeasyCam(this, 150);
+  //cam = new PeasyCam(this, 0,0,0,150);
+
+  // Loop the background music
+  bgMusic = new SoundFile(this, "sounds/space.wav");
+  bgMusic.loop();
 }
 
 void draw() {
   background(0);
+  pushMatrix();
+  translate(0,0,-400);
+  imageMode(CENTER);
+  image(stars, 0,0, width, height);
+  popMatrix();
+  
+  // Get the volume level going through the microphone
+  level = mic.mix.level();
+  // Print it
+  println("level: " + level);
 
   // A function that processes the current frame of video
   handleVideoInput();
 
+  // A "switch" statement is like an "if" statement with different
+  // syntax. Notice how we use "break;" after the instructions for
+  // each state are finished.
+  switch (state) {
+    // If our state is NONE, we do nothing
+  case NONE:
+    break;
 
-  // For now we just draw a crappy ellipse at the brightest pixel
-  fill(#ff0000);
-  stroke(#ffff00);
-  strokeWeight(10);
-  //ellipse(brightestPixel.x, brightestPixel.y, 20, 20);
+    // If our state is TITLE we update the title object
+    // which displays it, and then we check whether the title
+    // screen is finished and if so we go to the menu state
+  case TITLE:
+    title.update();
+    if (title.finished) {
+      state = State.SOLARSYSTEM;
+    }
+    break;
 
+  case SOLARSYSTEM:
+    solarSystem.update();
+    fill(#ff0000);
+    stroke(#ffffff);
+    strokeWeight(5);
+    pushMatrix();
+    translate(0, 0, -400);
+    ellipse(brightestPixel.x, brightestPixel.y, 20, 20);
+    popMatrix();
+    break;
+  }
 }
-
 
 // handleVideoInput
 //
@@ -121,8 +175,47 @@ void handleVideoInput() {
         // brightestPixel's x and y properties.
         brightestPixel.x = x;
         brightestPixel.y = y;
-               
       }
     }
+  }
+}
+
+// keyPressed()
+//
+// Here we just call the keyPressed() method of the appropriate
+// object for the state we're in.
+
+void keyPressed() {
+  switch (state) {
+  case NONE:
+    break;
+
+  case TITLE:
+    title.keyPressed();
+    break;
+
+  case SOLARSYSTEM:
+    solarSystem.keyPressed();
+    break;
+  }
+}
+
+
+// keyReleased()
+//
+// As for keyPressed, except for released!
+
+void keyReleased() {
+  switch (state) {
+  case NONE:
+    break;
+
+  case TITLE:
+    title.keyReleased();
+    break;
+
+  case SOLARSYSTEM:
+    solarSystem.keyReleased();
+    break;
   }
 }
