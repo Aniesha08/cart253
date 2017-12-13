@@ -1,5 +1,5 @@
 // Import the video library
-  import processing.video.*;
+import processing.video.*;
 
 // The capture object for reading from the webcam
 Capture video;
@@ -14,7 +14,8 @@ PVector brightestPixel = new PVector(-1, -1);
 // Creates the bouncers and starts the webcam
 
 void setup() {
-  size(640, 480);
+  // Setup the program to run in 3D
+  fullScreen(P3D);
 
   // Start up the webcam
   video = new Capture(this, 640, 480, 30);
@@ -28,17 +29,16 @@ void setup() {
 // do something much more interesting in order to actually interact with the Bouncers.
 
 void draw() {
+  background(0);
+
   // A function that processes the current frame of video
   handleVideoInput();
-
-  // Draw the video frame to the screen
-  image(video, 0, 0);
 
   // For now we just draw a crappy ellipse at the brightest pixel
   fill(#ff0000);
   stroke(#ffff00);
   strokeWeight(10);
-  ellipse(brightestPixel.x, brightestPixel.y, 20, 20);
+  ellipse(brightestPixel.x,brightestPixel.y,20,20);
 }
 
 // handleVideoInput
@@ -47,6 +47,7 @@ void draw() {
 // in that frame and stores its location in brightestPixel.
 
 void handleVideoInput() {
+
   // Check if there's a frame to look at
   if (!video.available()) {
     // If not, then just return, nothing to do
@@ -55,6 +56,8 @@ void handleVideoInput() {
 
   // If we're here, there IS a frame to look at so read it in
   video.read();
+
+  video.loadPixels();
 
   // Start with a very low "record" for the brightest pixel
   // so that we'll definitely find something better
@@ -65,7 +68,7 @@ void handleVideoInput() {
   for (int x = 0; x < video.width; x++) {
     for (int y = 0; y < video.height; y++) {
       // Calculate the location in the 1D pixels array
-      int loc = x + y * width;
+      int loc = x + y * video.width;
       // Get the color of the pixel we're looking at
       color pixelColor = video.pixels[loc];
       // Get the brightness of the pixel we're looking at
@@ -82,4 +85,4 @@ void handleVideoInput() {
       }
     }
   }
-} 
+}
