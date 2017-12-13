@@ -1,5 +1,27 @@
-// Import the video library
+// Imported PeasyCam from Library. This lets us zoom in and out, move the planets using the mouse. 
+import peasy.*;
+import peasy.org.apache.commons.math.*;
+import peasy.org.apache.commons.math.geometry.*;
+
+// Imported Video library
 import processing.video.*;
+
+// Import background music
+import processing.sound.*;
+SoundFile bgMusic;
+
+// Import Minim library and let us access the microphone
+import ddf.minim.*;
+Minim minim;
+AudioInput mic;
+
+// Variable for the level of sound
+float level;
+
+
+// Added class for Sun and Peasy cam
+PeasyCam cam;
+SolarSystem solarSystem;
 
 // The capture object for reading from the webcam
 Capture video;
@@ -9,24 +31,38 @@ Capture video;
 // as a default value)
 PVector brightestPixel = new PVector(-1, -1);
 
-// setup()
-//
-// Creates the bouncers and starts the webcam
+// Array to store the texture images of the planets. 
+// The array can store 9 texture images of the planets 
+// which will later be randomly alternating each time the program is runned
+PImage[] textures = new PImage[9];
 
-void setup() {
+
+void setup () {
   // Setup the program to run in 3D
   fullScreen(P3D);
+  //size (640, 480, P3D);
+
+  // Each index of the array has an image stored in it to use as texture for the planets
+  textures[0] = loadImage("images/mars.jpg");
+  textures[1] = loadImage("images/earth.jpg");
+  textures[2] = loadImage("images/mercury.jpg");
+  textures[3] = loadImage("images/jupiter.jpg");
+  textures[4] = loadImage("images/venus.jpg");
+  textures[5] = loadImage("images/saturn.jpg");
+  textures[6] = loadImage("images/uranus.jpg");
+  textures[7] = loadImage("images/neptune.jpg");
+  textures[8] = loadImage("images/pluto.jpg");
+
+  // Variables to show the state of the program
+  solarSystem = new SolarSystem();
 
   // Start up the webcam
   video = new Capture(this, 640, 480, 30);
   video.start();
-}
 
-// draw()
-//
-// Processes the frame of video, draws the video to the screen, updates the Bouncers
-// and then just draws an ellipse at the brightest pixel location. You code should
-// do something much more interesting in order to actually interact with the Bouncers.
+  // Make the PeasyCam for us to look at from the center from 150 units away when the program is run
+  cam = new PeasyCam(this, 150);
+}
 
 void draw() {
   background(0);
@@ -34,12 +70,15 @@ void draw() {
   // A function that processes the current frame of video
   handleVideoInput();
 
+
   // For now we just draw a crappy ellipse at the brightest pixel
   fill(#ff0000);
   stroke(#ffff00);
   strokeWeight(10);
-  ellipse(brightestPixel.x,brightestPixel.y,20,20);
+  //ellipse(brightestPixel.x, brightestPixel.y, 20, 20);
+
 }
+
 
 // handleVideoInput
 //
@@ -82,6 +121,7 @@ void handleVideoInput() {
         // brightestPixel's x and y properties.
         brightestPixel.x = x;
         brightestPixel.y = y;
+               
       }
     }
   }

@@ -13,17 +13,21 @@ class Planet {
   PVector p; // Perpendicular 
   PShape globe;
 
+  // Get the current level (volume) going into the microphone 
+  // and change orbit speed by controlling by the sound 
+  float volSpeed;
+  float sound;
 
   // Constructor to create the planets
-  Planet (float r, float d, float o, PImage img) {
-
-
+  //Planet (float r, float d, float o, float vol, PImage img) {
+  Planet (float r, float d, float o, float volSpeed, PImage img) {
     v = PVector.random3D();
     radius = r;
     distance = d;
     v.mult(distance);
     angle = random(TWO_PI);
-    orbitSpeed = o;
+    orbitSpeed = o; 
+    sound = volSpeed;
 
     // Properties to create the Sun
     noStroke();
@@ -32,34 +36,44 @@ class Planet {
     globe.setTexture(img);
   }
 
+// Make the children planets orbit
   void orbit() {
     angle = angle + orbitSpeed;
     if (planets != null) {
       for (int i = 0; i < planets.length; i++) {
-        planets[i].orbit(); // Make the children planets orbit
+        planets[i].orbit(); 
       }
     }
   }
 
-  // When a planet is created, the radius is shrinked, the distance
-  // is random, orbital speed is random, texture of planets is random (picked up from array index)
-  void orbitingPlanets(int total, int level) {
+  // When a planet is created, the radius is shrinked, the distance is random, 
+  // orbital speed is random (controlled by sound), texture of planets is random (picked up from array index in main program)
+  void orbitingPlanets(int total, int planetLevel) {
     // New planet array
     planets = new Planet[total];
     for (int i = 0; i < planets.length; i++) {
-      float r = radius/(level*2);
+      float r = radius/(planetLevel*2);
       float d = random((radius + r), (radius + r)*3); // distance between the planets touching and a little further away
-      float o = random (-0.050, 0.050); // orbital speed range
+      float o = random (-0.025, 0.025); // orbital speed range random
       int index = int(random(0, textures.length));
-      planets[i] = new Planet(r, d, o, textures[index]);
-      if (level < 2) {// level of planets 
+      planets[i] = new Planet(r, d, o, volSpeed, textures[index]);
+      if (planetLevel < 2) {// level of planets 
         int num = int(random(0, 3));
-        planets[i].orbitingPlanets(num, level+1);
+        planets[i].orbitingPlanets(num, planetLevel+1);
       }
     }
   }
 
-
+// Update the orbitSpeed of the planet based on the sound level 
+// OrbitSpeed is contrained
+  void updateSpeed(float level) {
+    if (planets != null) {
+      for (int i = 0; i < planets.length; i++) {
+        float tempSpeed = constrain(level*10*random(0.7, 1), 0.01, 0.25);
+        planets[i].orbitSpeed = tempSpeed;
+      }
+    }
+  }
 
   void show() {
     pushMatrix(); // Save
@@ -82,5 +96,4 @@ class Planet {
     }
     popMatrix(); // Restore
   }
-
 }
